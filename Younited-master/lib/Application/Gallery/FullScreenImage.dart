@@ -1,0 +1,40 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+
+class FullScreenImage extends StatelessWidget {
+  final String imageUrl;
+  final String tag;
+
+  const FullScreenImage({Key key, this.imageUrl, this.tag}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TransformationController controller = TransformationController();
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      body: GestureDetector(
+        child: Center(
+          child: Hero(
+            tag: tag,
+            child: InteractiveViewer(
+              transformationController: controller,
+              constrained: true,
+              scaleEnabled: true,
+              boundaryMargin: EdgeInsets.all(20.0),
+              minScale: 0.1,
+              maxScale: 1.6,
+              child: CachedNetworkImage(
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.contain,
+                imageUrl: imageUrl,
+              ),
+            ),
+          ),
+        ),
+        onTap: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+}
